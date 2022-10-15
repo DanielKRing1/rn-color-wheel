@@ -13,7 +13,6 @@ const {
 	Text,
 } = require('react-native')
 
-const Elevations = require('react-native-elevation')
 const srcWheel = require('./assets/graphics/ui/color-wheel.png')
 const srcSlider = require('./assets/graphics/ui/black-gradient.png')
 const srcSliderRotated = require('./assets/graphics/ui/black-gradient-rotated.png')
@@ -165,6 +164,7 @@ module.exports = class ColorPicker extends Component {
 	static defaultProps = {
 		row: false, // use row or vertical layout
 		noSnap: false, // enables snapping on the center of wheel and edges of wheel and slider
+		wheelRadius: 200, // ****I added this
 		thumbSize: 50, // wheel color thumb size
 		sliderSize: 20, // slider and slider color thumb size
 		gapSize: 16, // size of gap between slider and wheel
@@ -334,7 +334,8 @@ module.exports = class ColorPicker extends Component {
 	}
 	onSquareLayout = (e) => {
 		let {x, y, width, height} = e.nativeEvent.layout
-		this.wheelWidth = Math.min(width, height)
+		// this.wheelWidth = Math.min(width, height)
+		this.wheelWidth = props.wheelWidth;
 		this.tryForceUpdate()
 	}
 	onWheelLayout = (e) => {
@@ -346,7 +347,7 @@ module.exports = class ColorPicker extends Component {
 		*/
 		this.wheel.measureInWindow((x, y, width, height) => {
 			this.wheelMeasure = {x, y, width, height}
-			this.wheelSize = width
+			this.wheelSize = wheelSize;
 			// this.panX.setOffset(-width/2)
 			// this.panY.setOffset(-width/2)
 			this.update(this.state.currentColor)
@@ -535,6 +536,7 @@ module.exports = class ColorPicker extends Component {
 	render () {
 		const {
 			style,
+			wheelWidth,
 			thumbSize,
 			sliderSize,
 			gapSize,
@@ -603,7 +605,7 @@ module.exports = class ColorPicker extends Component {
 					{ this.wheelWidth>0 && <View style={[{padding:thumbSize/2,width:this.wheelWidth,height:this.wheelWidth}]}>
 						<View style={[ss.wheelWrap]}>
 							<Image style={ss.wheelImg} source={srcWheel} />
-							<Animated.View style={[ss.wheelThumb,wheelThumbStyle,Elevations[4],{pointerEvents:'none'}]} />
+							<Animated.View style={[ss.wheelThumb,wheelThumbStyle,{pointerEvents:'none'}]} />
 							<View style={[ss.cover]} onLayout={this.onWheelLayout} {...wheelPanHandlers} ref={r => { this.wheel = r }}></View>
 						</View>
 					</View> }
@@ -612,7 +614,7 @@ module.exports = class ColorPicker extends Component {
 					<View style={[ss.grad,{backgroundColor:hex}]}>
 						<Image style={ss.sliderImg} source={row?srcSliderRotated:srcSlider} resizeMode="stretch" />
 					</View>
-					<Animated.View style={[ss.sliderThumb,sliderThumbStyle,Elevations[4],{pointerEvents:'none'}]} />
+					<Animated.View style={[ss.sliderThumb,sliderThumbStyle,{pointerEvents:'none'}]} />
 					<View style={[ss.cover]} onLayout={this.onSliderLayout} {...sliderPanHandlers} ref={r => { this.slider = r }}></View>
 				</View>) }
 				{ swatches && swatchesLast && <View style={[ss.swatches,swatchStyle]} key={'SW'}>{ this.swatches }</View> }
@@ -692,6 +694,10 @@ const ss = StyleSheet.create({
 		borderWidth: 2,
 		borderColor: '#EEEEEE',
 		elevation: 4,
+		shadowColor: 'rgb(46, 48, 58)',
+		shadowOffset: {width: 0, height: 2},
+		shadowOpacity: 0.8,
+		shadowRadius: 2,
 		// backgroundColor: '#f00',
 	},
 	grad: {
