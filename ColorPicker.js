@@ -335,7 +335,7 @@ module.exports = class ColorPicker extends Component {
 	onSquareLayout = (e) => {
 		let {x, y, width, height} = e.nativeEvent.layout
 		// this.wheelWidth = Math.min(width, height)
-		this.wheelWidth = props.wheelWidth;
+		this.wheelWidth = props.wheelRadius;
 		this.tryForceUpdate()
 	}
 	onWheelLayout = (e) => {
@@ -536,7 +536,6 @@ module.exports = class ColorPicker extends Component {
 	render () {
 		const {
 			style,
-			wheelWidth,
 			thumbSize,
 			sliderSize,
 			gapSize,

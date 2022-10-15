@@ -1,5 +1,5 @@
 {
-  "name": "react-native-wheel-color-picker",
+  "name": "@asianpersonn/rn-color-wheel",
   "version": "1.0.1",
   "description": "A color picker component for react native",
   "main": "ColorPicker.js",
