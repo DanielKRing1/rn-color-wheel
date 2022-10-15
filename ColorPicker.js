@@ -346,7 +346,7 @@ module.exports = class ColorPicker extends Component {
 		*/
 		this.wheel.measureInWindow((x, y, width, height) => {
 			this.wheelMeasure = {x, y, width, height}
-			this.wheelSize = wheelSize;
+			this.wheelSize = width;
 			// this.panX.setOffset(-width/2)
 			// this.panY.setOffset(-width/2)
 			this.update(this.state.currentColor)
