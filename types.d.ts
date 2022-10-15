@@ -5,6 +5,7 @@ export interface ColorPickerProps extends React.Props<ColorPicker> {
   row?: boolean,
   /** Enables snapping on the center of wheel and edges of wheel and slider */
   noSnap?: boolean,
+  wheelRadius?: number,
   /** Wheel color thumb size */
   thumbSize?: number,
   /** Slider and slider color thumb size */
