@@ -13,9 +13,9 @@ const {
 	Text,
 } = require('react-native')
 
-const srcWheel = require('./assets/graphics/ui/color-wheel.png')
-const srcSlider = require('./assets/graphics/ui/black-gradient.png')
-const srcSliderRotated = require('./assets/graphics/ui/black-gradient-rotated.png')
+import srcWheel from './assets/graphics/ui/color-wheel.png';
+import srcSlider from './assets/graphics/ui/black-gradient.png';
+import srcSliderRotated from './assets/graphics/ui/black-gradient-rotated.png';
 
 const PALETTE = [
 	'#000000',
@@ -164,7 +164,7 @@ module.exports = class ColorPicker extends Component {
 	static defaultProps = {
 		row: false, // use row or vertical layout
 		noSnap: false, // enables snapping on the center of wheel and edges of wheel and slider
-		wheelRadius: 200, // ****I added this
+		wheelRadius: 200,
 		thumbSize: 50, // wheel color thumb size
 		sliderSize: 20, // slider and slider color thumb size
 		gapSize: 16, // size of gap between slider and wheel
@@ -334,7 +334,7 @@ module.exports = class ColorPicker extends Component {
 	}
 	onSquareLayout = (e) => {
 		let {x, y, width, height} = e.nativeEvent.layout
-		this.wheelWidth = this.props.wheelRadius !== undefined ? this.props.wheelRadius : Math.min(width, height);
+		this.wheelWidth = this.props.wheelRadius !== undefined ? this.props.wheelRadius : Math.min(width, height)
 		this.tryForceUpdate()
 	}
 	onWheelLayout = (e) => {
@@ -346,7 +346,7 @@ module.exports = class ColorPicker extends Component {
 		*/
 		this.wheel.measureInWindow((x, y, width, height) => {
 			this.wheelMeasure = {x, y, width, height}
-			this.wheelSize = width;
+			this.wheelSize = width
 			// this.panX.setOffset(-width/2)
 			// this.panY.setOffset(-width/2)
 			this.update(this.state.currentColor)
@@ -535,6 +535,7 @@ module.exports = class ColorPicker extends Component {
 	render () {
 		const {
 			style,
+			wheelRadius,
 			thumbSize,
 			sliderSize,
 			gapSize,
@@ -550,6 +551,10 @@ module.exports = class ColorPicker extends Component {
 		const sliderPanHandlers = this.sliderPanResponder && this.sliderPanResponder.panHandlers || {}
 		const opacity = this.state.wheelOpacity// * this.state.sliderOpacity
 		const margin = swatchesOnly ? 0 : gapSize
+		const wheelStyle = {
+			width: wheelRadius,
+			height: wheelRadius,
+		};
 		const wheelThumbStyle = {
 			width: thumbSize,
 			height: thumbSize,
@@ -599,8 +604,8 @@ module.exports = class ColorPicker extends Component {
 		return (
 			<View style={[ss.root,row?{flexDirection:'row'}:{},style]}>
 				{ swatches && !swatchesLast && <View style={[ss.swatches,swatchStyle,swatchFirstStyle]} key={'SW'}>{ this.swatches }</View> }
-				{ !swatchesOnly && <View style={[ss.wheel]} key={'$1'} onLayout={this.onSquareLayout}>
-					{ this.wheelWidth>0 && <View style={[{padding:thumbSize/2,width:this.wheelWidth,height:this.wheelWidth}]}>
+				{ !swatchesOnly && <View style={[ss.wheel, wheelStyle]} key={'$1'} onLayout={this.onSquareLayout}>
+					{ this.wheelWidth>0 && <View style={[{padding:thumbSize/2}, wheelStyle]}>
 						<View style={[ss.wheelWrap]}>
 							<Image style={ss.wheelImg} source={srcWheel} />
 							<Animated.View style={[ss.wheelThumb,wheelThumbStyle,{pointerEvents:'none'}]} />
@@ -632,7 +637,6 @@ const ss = StyleSheet.create({
 		// backgroundColor: '#ffcccc',
 	},
 	wheel: {
-		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
 		position: 'relative',
